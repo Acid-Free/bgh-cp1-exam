@@ -11,14 +11,15 @@ import { ref } from 'vue'
 import ConfirmDialog from 'primevue/confirmdialog'
 import UpdatePatientDialog from '@/Components/UpdatePatientDialog.vue'
 import { Patient } from '@/types/patient'
+import { formatName } from '@/Helpers/names'
 
 const patients: Ref<Patient[]> = ref([
   {
     id: 1,
     lastName: 'Patient 1',
     firstName: 'Bob',
-    middleName: 'Yo',
-    suffixName: 'jr',
+    middleName: null,
+    suffixName: null,
     birthDate: new Date(),
     address: 'Address here 1'
   },
@@ -27,7 +28,7 @@ const patients: Ref<Patient[]> = ref([
     lastName: 'Patient 2',
     firstName: 'Bob',
     middleName: 'Yo',
-    suffixName: 'jr',
+    suffixName: 'sr',
     birthDate: new Date(),
     address: 'Address here 2'
   },
@@ -102,8 +103,22 @@ const deletePatient = (): void => {
     <Button label="Add Patient" icon="pi pi-plus" class="mb-2" @click="toggleAddPatient" />
 
     <DataTable :value="patients">
-      <Column field="name" header="Name"></Column>
-      <Column field="dateOfBirth" header="Date of Birth"></Column>
+      <Column field="lastName" header="Name">
+        <template #body="{ data }">
+          {{ formatName(data.lastName, data.firstName, data.middleName, data.suffixName) }}
+        </template>
+      </Column>
+      <Column field="dateOfBirth" header="Date of Birth">
+        <template #body="{ data }">
+          {{
+            data.birthDate.toLocaleString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })
+          }}
+        </template>
+      </Column>
       <Column field="address" header="Address"></Column>
       <Column header="Actions" :pt="{ headerTitle: 'text-center w-full', headerCell: 'w-1/12' }">
         <template #body="{ data }">

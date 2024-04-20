@@ -40,6 +40,8 @@
 
 - [ ] Show age instead of date of birth in patient dashboard
 - [ ] Instead of just fetching patient data from dashboard when updating, fetch the latest patient info from backend
+- [ ] Add datable sorting filters
+- [ ] Add datatable search
 
 ## Refactors
 
