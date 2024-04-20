@@ -25,12 +25,24 @@ const showingNavigationDropdown = ref(false)
                 </Link>
               </div>
 
+              <div class="ml-2 flex items-center">
+                <span class="text-2xl font-medium">BGHMC CP1 Exam</span>
+              </div>
+
               <!-- Navigation Links -->
               <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <NavLink :href="route('patients')" :active="route().current('patients')">
+                <NavLink
+                  :href="route('patients')"
+                  :active="route().current('patients')"
+                  class="text-xl"
+                >
                   Patients
                 </NavLink>
-                <NavLink :href="route('admissions')" :active="route().current('admissions')">
+                <NavLink
+                  :href="route('admissions')"
+                  :active="route().current('admissions')"
+                  class="text-xl"
+                >
                   Admissions
                 </NavLink>
               </div>
