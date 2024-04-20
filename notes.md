@@ -38,9 +38,12 @@
 
 ## Misc
 
+- [ ] Show age instead of date of birth in patient dashboard
+
 ## Refactors
 
 - [ ] Add and edit patient content is the same, reuse as component
 - [ ] Separate patient and admission mutation logic from markup
+- [ ] Move `confirm delete patient` prompt to store
 
 ## Issues

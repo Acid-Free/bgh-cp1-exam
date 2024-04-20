@@ -11,6 +11,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 import { ZiggyVue } from '../../vendor/tightenco/ziggy'
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
+import ConfirmationService from 'primevue/confirmationservice'
 import DataTable from 'primevue/datatable'
 import Button from 'primevue/button'
 import Tooltip from 'primevue/tooltip'
@@ -31,6 +32,7 @@ createInertiaApp({
       .use(ZiggyVue)
       .use(PrimeVue)
       .use(ToastService)
+      .use(ConfirmationService)
       .component('DataTable', DataTable)
       .component('Button', Button)
       .component('Dialog', Dialog)
