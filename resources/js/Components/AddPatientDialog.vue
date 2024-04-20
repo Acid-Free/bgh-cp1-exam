@@ -19,9 +19,11 @@ const emptyPatientInfo = {
 }
 const patientInfo: Ref<Patient> = ref({ ...emptyPatientInfo })
 
-const cancelPatientCreation = (): void => {
+const resetPatientInfo = (): void => {
   patientInfo.value = { ...emptyPatientInfo }
+}
 
+const cancelPatientCreation = (): void => {
   visible.value = false
 }
 
@@ -39,9 +41,10 @@ const savePatient = (): void => {
     closable
     close-on-escape
     dismissable-mask
+    @hide="resetPatientInfo"
   >
     <span class="text-[--surface-500]">Provide complete patient information.</span>
-    <div class="flex flex-col gap-2 sm:flex-row">
+    <div class="flex flex-col gap-2 pt-2 sm:flex-row">
       <FloatLabel class="mt-6">
         <InputText v-model="patientInfo.lastName" class="w-full" name="lastName" autofocus />
         <label for="lastName">Last Name</label>
