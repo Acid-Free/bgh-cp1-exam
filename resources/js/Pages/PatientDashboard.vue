@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import AddPatientDialog from '@/Components/AddPatientDialog.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { Head } from '@inertiajs/vue3'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
+import { Ref } from 'vue'
 import { ref } from 'vue'
 
 const patients = ref([
@@ -12,10 +14,17 @@ const patients = ref([
   { id: 'P003', name: 'Patient 3', dateOfBirth: 'dateOfBirth A', address: 'Address here' },
   { id: 'P004', name: 'Patient 4', dateOfBirth: 'dateOfBirth C', address: 'Address here' }
 ])
+
+const editPatientToggled: Ref<boolean> = ref(false)
+const toggleEditPatient = (): void => {
+  editPatientToggled.value = !editPatientToggled.value
+}
 </script>
 
 <template>
   <Head title="Patient Dashboard" />
+
+  <AddPatientDialog v-model:visible="editPatientToggled" />
 
   <AuthenticatedLayout>
     <template #header>
@@ -23,6 +32,8 @@ const patients = ref([
         Patient Dashboard
       </h2>
     </template>
+
+    <Button label="Add Patient" icon="pi pi-plus" class="mb-2" @click="toggleEditPatient" />
 
     <DataTable
       :value="patients"

@@ -14,6 +14,7 @@ import ToastService from 'primevue/toastservice'
 import DataTable from 'primevue/datatable'
 import Button from 'primevue/button'
 import Tooltip from 'primevue/tooltip'
+import Dialog from 'primevue/dialog'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
@@ -32,6 +33,7 @@ createInertiaApp({
       .use(ToastService)
       .component('DataTable', DataTable)
       .component('Button', Button)
+      .component('Dialog', Dialog)
       .directive('tooltip', Tooltip)
       .mount(el)
   },
