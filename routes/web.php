@@ -14,18 +14,12 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-// FIXME: Placeholder value, update
 Route::get('/patients', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('PatientDashboard');
 })->middleware(['auth', 'verified'])->name('patients');
 
-// FIXME: Placeholder value, update
 Route::get('/admissions', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('AdmissionDashboard');
 })->middleware(['auth', 'verified'])->name('admissions');
 
 Route::middleware('auth')->group(function () {

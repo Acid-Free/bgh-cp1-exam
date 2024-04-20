@@ -27,9 +27,6 @@ const showingNavigationDropdown = ref(false)
 
               <!-- Navigation Links -->
               <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                  Dashboard
-                </NavLink>
                 <NavLink :href="route('patients')" :active="route().current('patients')">
                   Patients
                 </NavLink>
@@ -119,9 +116,6 @@ const showingNavigationDropdown = ref(false)
           class="sm:hidden"
         >
           <div class="space-y-1 pb-3 pt-2">
-            <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-              Dashboard
-            </ResponsiveNavLink>
             <ResponsiveNavLink :href="route('patients')" :active="route().current('patients')">
               Patients
             </ResponsiveNavLink>
@@ -152,14 +146,14 @@ const showingNavigationDropdown = ref(false)
       </nav>
 
       <!-- Page Heading -->
-      <header class="bg-white shadow dark:bg-gray-800" v-if="$slots.header">
+      <header class="mb-8 bg-white shadow dark:bg-gray-800" v-if="$slots.header">
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <slot name="header" />
         </div>
       </header>
 
       <!-- Page Content -->
-      <main>
+      <main class="mx-2 sm:mx-8">
         <slot />
       </main>
     </div>

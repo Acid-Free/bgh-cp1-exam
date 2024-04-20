@@ -42,7 +42,9 @@ defineProps<{
         <ApplicationLogo class="w-24" />
         <h1 class="text-4xl font-bold sm:text-[5rem]">BGHMC CP1 Exam</h1>
       </div>
-      <div class="flex flex-1 flex-col gap-4 p-12 sm:flex-row sm:gap-12 sm:p-52 [&>*]:flex-1">
+      <div
+        class="flex flex-1 flex-col items-center justify-center gap-4 p-12 sm:flex-row sm:gap-12 [&>*]:h-52 [&>*]:w-96 [&>*]:flex-1"
+      >
         <SecondaryButton @click="router.visit(route('patients'))">
           <span class="text-2xl sm:text-[3rem]">Patients</span>
         </SecondaryButton>
