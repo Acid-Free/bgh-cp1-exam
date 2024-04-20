@@ -1,6 +1,8 @@
 import './bootstrap'
 import '../css/app.css'
 
+import 'primeicons/primeicons.css'
+
 import 'primevue/resources/themes/aura-light-blue/theme.css'
 
 import { createApp, h, DefineComponent } from 'vue'
@@ -11,6 +13,7 @@ import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
 import DataTable from 'primevue/datatable'
 import Button from 'primevue/button'
+import Tooltip from 'primevue/tooltip'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
@@ -29,6 +32,7 @@ createInertiaApp({
       .use(ToastService)
       .component('DataTable', DataTable)
       .component('Button', Button)
+      .directive('tooltip', Tooltip)
       .mount(el)
   },
   progress: {
