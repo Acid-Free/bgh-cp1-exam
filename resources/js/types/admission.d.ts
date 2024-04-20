@@ -1,12 +1,12 @@
 export type Admission = {
   id?: number
 
-  patientLastName: string
-  patientFirstName: string
+  patientLastName: string | null
+  patientFirstName: string | null
   patientMiddleName: string | null
   patientSuffixName: string | null
 
   ward: string | null
-  admissionDatetime: Date
+  admissionDatetime: Date | null
   dischargeDatetime: Date | null
 }

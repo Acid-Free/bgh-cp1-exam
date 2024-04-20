@@ -11,6 +11,7 @@ import { Ref } from 'vue'
 import { formatName } from '@/Helpers/names'
 import { formatDate, formatDatetime } from '@/Helpers/time'
 import Calendar from 'primevue/calendar'
+import AddAdmissionDialog from '@/Components/AddAdmissionDialog.vue'
 
 const dashboardAdmissionDate: Ref<Date> = ref(new Date())
 const admissions: Ref<Admission[]> = ref([
@@ -119,4 +120,5 @@ const deleteAdmission = (): void => {
   </AuthenticatedLayout>
 
   <ConfirmDialog />
+  <AddAdmissionDialog v-model:visible="addAdmissionToggled" />
 </template>
