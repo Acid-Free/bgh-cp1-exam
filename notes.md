@@ -8,14 +8,14 @@
 
 - [ ] Interfaces
   - [x] Patient dashboard
-  - [ ] Admission dashboard
+  - [x] Admission dashboard
   - [x] Add patient
   - [x] Update patient
   - [x] Remove patient
   - [ ] Admit patient
     - [ ] From Patient page
     - [ ] _From Admisson page_
-  - [ ] Remove admission
+  - [x] Remove admission
 - [ ] Database tables
   - [ ] Patient
   - [ ] Admission

@@ -12,6 +12,7 @@ import ConfirmDialog from 'primevue/confirmdialog'
 import UpdatePatientDialog from '@/Components/UpdatePatientDialog.vue'
 import { Patient } from '@/types/patient'
 import { formatName } from '@/Helpers/names'
+import { formatDate } from '@/Helpers/time'
 
 const patients: Ref<Patient[]> = ref([
   {
@@ -57,6 +58,15 @@ const toggleAddPatient = (): void => {
   addPatientToggled.value = !addPatientToggled.value
 }
 
+// patient info of last selected row for update in dashboard
+const lastUpdatePatientInfo: Ref<Patient | {}> = ref({})
+const updatePatientToggled: Ref<boolean> = ref(false)
+const toggleUpdatePatient = (patientInfo: Patient): void => {
+  lastUpdatePatientInfo.value = patientInfo
+
+  updatePatientToggled.value = !updatePatientToggled.value
+}
+
 const confirm = useConfirm()
 const deletePatientConfirm = (acceptCallback: () => void): void => {
   const message = 'Are you sure you want to delete this patient?'
@@ -74,16 +84,6 @@ const deletePatientConfirm = (acceptCallback: () => void): void => {
     }
   })
 }
-
-// patient info of last selected row for update in dashboard
-const lastUpdatePatientInfo: Ref<Patient | {}> = ref({})
-const updatePatientToggled: Ref<boolean> = ref(false)
-const toggleUpdatePatient = (patientInfo: Patient): void => {
-  lastUpdatePatientInfo.value = patientInfo
-
-  updatePatientToggled.value = !updatePatientToggled.value
-}
-
 const deletePatient = (): void => {
   // TODO: Add delete functionality
   console.log('Delete patient')
@@ -100,9 +100,9 @@ const deletePatient = (): void => {
       </h2>
     </template>
 
-    <Button label="Add Patient" icon="pi pi-plus" class="mb-2" @click="toggleAddPatient" />
+    <Button label="Add Patient" icon="pi pi-plus" @click="toggleAddPatient" />
 
-    <DataTable :value="patients">
+    <DataTable :value="patients" data-key="id" :pt="{ root: 'mt-4' }">
       <Column field="lastName" header="Name">
         <template #body="{ data }">
           {{ formatName(data.lastName, data.firstName, data.middleName, data.suffixName) }}
@@ -110,13 +110,7 @@ const deletePatient = (): void => {
       </Column>
       <Column field="dateOfBirth" header="Date of Birth">
         <template #body="{ data }">
-          {{
-            data.birthDate.toLocaleString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })
-          }}
+          {{ formatDate(data.birthDate) }}
         </template>
       </Column>
       <Column field="address" header="Address"></Column>
