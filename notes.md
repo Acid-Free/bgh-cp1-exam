@@ -27,6 +27,7 @@
   - [ ] Fetch admissions for the day
   - [ ] Admit patient
     - [ ] Select patient
+      - [ ] Ensure patient is not yet admitted
     - [ ] Provide admission datetime and ward
   - [ ] Discharge admission
     - [ ] Ensure admission is active
@@ -42,6 +43,7 @@
 - [ ] Instead of just fetching patient data from dashboard when updating, fetch the latest patient info from backend
 - [ ] Add datable sorting filters
 - [ ] Add datatable search
+- [ ] Show admissions with the following filters: active, discharged, all
 
 ## Refactors
 

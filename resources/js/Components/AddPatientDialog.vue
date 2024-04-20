@@ -63,7 +63,7 @@ const savePatient = (): void => {
       </FloatLabel>
     </div>
 
-    <div class="flex flex-col gap-2 sm:flex-row [&>*]:flex-1">
+    <div class="mt-4 flex flex-col gap-2 sm:flex-row [&>*]:flex-1">
       <FloatLabel class="mt-6">
         <Calendar v-model="patientInfo.birthDate" class="w-full" name="birthDate" autofocus />
         <label for="birthDate">Date of Birth</label>
