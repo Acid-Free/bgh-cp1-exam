@@ -9,17 +9,51 @@ import DataTable from 'primevue/datatable'
 import { Ref } from 'vue'
 import { ref } from 'vue'
 import ConfirmDialog from 'primevue/confirmdialog'
+import UpdatePatientDialog from '@/Components/UpdatePatientDialog.vue'
+import { Patient } from '@/types/patient'
 
-const patients = ref([
-  { id: 'P001', name: 'Patient 1', dateOfBirth: 'dateOfBirth A', address: 'Address here' },
-  { id: 'P002', name: 'Patient 2', dateOfBirth: 'dateOfBirth B', address: 'Address here' },
-  { id: 'P003', name: 'Patient 3', dateOfBirth: 'dateOfBirth A', address: 'Address here' },
-  { id: 'P004', name: 'Patient 4', dateOfBirth: 'dateOfBirth C', address: 'Address here' }
+const patients: Ref<Patient[]> = ref([
+  {
+    id: 1,
+    lastName: 'Patient 1',
+    firstName: 'Bob',
+    middleName: 'Yo',
+    suffixName: 'jr',
+    birthDate: new Date(),
+    address: 'Address here 1'
+  },
+  {
+    id: 2,
+    lastName: 'Patient 2',
+    firstName: 'Bob',
+    middleName: 'Yo',
+    suffixName: 'jr',
+    birthDate: new Date(),
+    address: 'Address here 2'
+  },
+  {
+    id: 5,
+    lastName: 'Patient 3',
+    firstName: 'Bob',
+    middleName: 'Yo',
+    suffixName: 'jr',
+    birthDate: new Date(),
+    address: 'Address here 3'
+  },
+  {
+    id: 6,
+    lastName: 'Patient 4',
+    firstName: 'Bob',
+    middleName: 'Yo',
+    suffixName: 'jr',
+    birthDate: new Date(),
+    address: 'Address here 4'
+  }
 ])
 
-const editPatientToggled: Ref<boolean> = ref(false)
-const toggleEditPatient = (): void => {
-  editPatientToggled.value = !editPatientToggled.value
+const addPatientToggled: Ref<boolean> = ref(false)
+const toggleAddPatient = (): void => {
+  addPatientToggled.value = !addPatientToggled.value
 }
 
 const confirm = useConfirm()
@@ -40,6 +74,15 @@ const deletePatientConfirm = (acceptCallback: () => void): void => {
   })
 }
 
+// patient info of last selected row for update in dashboard
+const lastUpdatePatientInfo: Ref<Patient | {}> = ref({})
+const updatePatientToggled: Ref<boolean> = ref(false)
+const toggleUpdatePatient = (patientInfo: Patient): void => {
+  lastUpdatePatientInfo.value = patientInfo
+
+  updatePatientToggled.value = !updatePatientToggled.value
+}
+
 const deletePatient = (): void => {
   // TODO: Add delete functionality
   console.log('Delete patient')
@@ -49,9 +92,6 @@ const deletePatient = (): void => {
 <template>
   <Head title="Patient Dashboard" />
 
-  <ConfirmDialog />
-  <AddPatientDialog v-model:visible="editPatientToggled" />
-
   <AuthenticatedLayout>
     <template #header>
       <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
@@ -59,30 +99,38 @@ const deletePatient = (): void => {
       </h2>
     </template>
 
-    <Button label="Add Patient" icon="pi pi-plus" class="mb-2" @click="toggleEditPatient" />
+    <Button label="Add Patient" icon="pi pi-plus" class="mb-2" @click="toggleAddPatient" />
 
     <DataTable :value="patients">
       <Column field="name" header="Name"></Column>
       <Column field="dateOfBirth" header="Date of Birth"></Column>
       <Column field="address" header="Address"></Column>
       <Column header="Actions" :pt="{ headerTitle: 'text-center w-full', headerCell: 'w-1/12' }">
-        <template #body>
+        <template #body="{ data }">
           <div class="flex justify-center gap-8">
-            <Button v-tooltip.left="'Edit Patient'" icon="pi pi-pen-to-square" text @click="" />
+            <Button
+              v-tooltip.left="'Update Patient'"
+              icon="pi pi-pen-to-square"
+              text
+              @click="toggleUpdatePatient(data)"
+            />
             <Button
               v-tooltip.left="'Delete Patient'"
               icon="pi pi-trash"
               severity="danger"
               text
-              @click="
-                () => {
-                  deletePatientConfirm(deletePatient)
-                }
-              "
+              @click="deletePatientConfirm(deletePatient)"
             />
           </div>
         </template>
       </Column>
     </DataTable>
   </AuthenticatedLayout>
+
+  <ConfirmDialog />
+  <AddPatientDialog v-model:visible="addPatientToggled" />
+  <UpdatePatientDialog
+    v-model:visible="updatePatientToggled"
+    :update-patient-info="lastUpdatePatientInfo as Patient"
+  />
 </template>

@@ -10,8 +10,8 @@
   - [x] Patient dashboard
   - [ ] Admission dashboard
   - [x] Add patient
-  - [ ] Edit patient
-  - [ ] Remove patient
+  - [x] Update patient
+  - [x] Remove patient
   - [ ] Admit patient
     - [ ] From Patient page
     - [ ] _From Admisson page_
@@ -20,9 +20,9 @@
   - [ ] Patient
   - [ ] Admission
 - [ ] Functions
-  - [ ] Fetch patient
+  - [ ] _Fetch patient_
   - [ ] Add patient
-  - [ ] Edit patient
+  - [ ] Update patient
   - [ ] Remove patient
   - [ ] Fetch admissions for the day
   - [ ] Admit patient
@@ -39,11 +39,15 @@
 ## Misc
 
 - [ ] Show age instead of date of birth in patient dashboard
+- [ ] Instead of just fetching patient data from dashboard when updating, fetch the latest patient info from backend
 
 ## Refactors
 
-- [ ] Add and edit patient content is the same, reuse as component
+- [ ] Move patient list to store
+  - [ ] _Use patient id as prop instead of last patient info to update patient dialog_
+- [ ] Add and update patient content is the same, reuse as component
+- [ ] Move common logic and fields to \[inline\] composables
 - [ ] Separate patient and admission mutation logic from markup
-- [ ] Move `confirm delete patient` prompt to store
+- [ ] Move `confirm delete patient` prompt to separate file (e.g. composable)
 
 ## Issues
