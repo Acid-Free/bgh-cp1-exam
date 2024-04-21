@@ -53,7 +53,6 @@ const deletePatientConfirm = (patientId: number, acceptCallback: (id: number) =>
     rejectLabel: 'Cancel',
     acceptLabel: 'Delete',
     accept: () => {
-      console.log('inside confirm:', patientId)
       acceptCallback(patientId)
       fetchPatients()
     }

@@ -15,14 +15,10 @@ export const useAdmisionStore = defineStore('admission', () => {
 
   const addAdmission = async (admissionData: AdmissionFormData): Promise<void> => {
     const response = await axios.post(route('admission.add'), admissionData)
-
-    console.log(response.data)
   }
 
   const dischargeAdmission = async (admissionData: DischargeAdmissionFormData): Promise<void> => {
     const response = await axios.post(route('admission.discharge'), admissionData)
-
-    console.log(response)
   }
 
   return { admissions, fetchAdmissions, addAdmission, dischargeAdmission }

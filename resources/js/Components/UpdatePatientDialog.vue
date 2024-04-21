@@ -50,7 +50,6 @@ const attemptUpdatePatient = async (): Promise<void> => {
     emits('updated')
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
-      console.log('wut')
       errorMessages.value = error?.response?.data.errors ?? [error?.response?.data.error]
     }
   } finally {
