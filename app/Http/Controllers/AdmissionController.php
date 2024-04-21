@@ -61,4 +61,25 @@ class AdmissionController extends Controller
 
         return response()->json(['message' => 'Admission created successfully', 'data' => $admission], 201);
     }
+
+    public function dischargeAdmission(Request $request): JsonResponse
+    {
+        $request->validate([
+            'id' => 'required|exists:admissions,id',
+            'dischargeDatetime' => 'required|date'
+        ]);
+
+        $mappedData = [
+            'id' => $request->id,
+            'discharge_datetime' => $this->dateService->parseISO8601MysqlDatetime(
+                $request->dischargeDatetime
+            ),
+        ];
+
+        $admission = Admission::findOrFail($mappedData['id']);
+
+        $admission->update($mappedData);
+
+        return response()->json(['message' => 'Admission discharged successfully', 'data' => $admission]);
+    }
 }

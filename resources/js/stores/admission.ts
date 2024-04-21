@@ -1,4 +1,4 @@
-import { Admission, AdmissionFormData } from '@/types/admission'
+import { Admission, AdmissionFormData, DischargeAdmissionFormData } from '@/types/admission'
 import axios from 'axios'
 import { defineStore } from 'pinia'
 import { Ref, ref } from 'vue'
@@ -19,5 +19,11 @@ export const useAdmisionStore = defineStore('admission', () => {
     console.log(response.data)
   }
 
-  return { admissions, fetchAdmissions, addAdmission }
+  const dischargeAdmission = async (admissionData: DischargeAdmissionFormData): Promise<void> => {
+    const response = await axios.post(route('admission.discharge'), admissionData)
+
+    console.log(response)
+  }
+
+  return { admissions, fetchAdmissions, addAdmission, dischargeAdmission }
 })

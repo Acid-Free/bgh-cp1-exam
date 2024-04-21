@@ -4,22 +4,27 @@ import InputText from 'primevue/inputtext'
 import FloatLabel from 'primevue/floatlabel'
 import Calendar from 'primevue/calendar'
 import { Ref } from 'vue'
-import { Patient } from '@/types/patient'
 import { ref } from 'vue'
+import { DischargeAdmissionFormData } from '@/types/admission'
+import { useAdmisionStore } from '@/stores/admission'
+
+const admissionStore = useAdmisionStore()
+const { dischargeAdmission } = admissionStore
 
 const visible = defineModel<boolean>('visible')
 const props = defineProps<{ admissionId: number | null }>()
 
-const dischargeDatetime: Ref<Date | null> = ref(null)
+const admission: Ref<DischargeAdmissionFormData> = ref({
+  id: props.admissionId,
+  dischargeDatetime: null
+})
 
-const emptyPatientInfo = {
-  lastName: null,
-  firstName: null,
-  middleName: null,
-  suffixName: null,
-  birthDate: null,
-  address: null
+const refreshAdmissionData = (): void => {
+  admission.value.id = props.admissionId
+  admission.value.dischargeDatetime = new Date()
 }
+
+const dischargeDatetime: Ref<Date | null> = ref(null)
 
 const resetDischargeAdmission = (): void => {
   dischargeDatetime.value = null
@@ -27,11 +32,6 @@ const resetDischargeAdmission = (): void => {
 
 const cancelAdmissionDischarge = (): void => {
   visible.value = false
-}
-
-const dischargeAdmission = (): void => {
-  // TODO: Discharge admission
-  console.log('Discharge admission')
 }
 </script>
 
@@ -43,6 +43,7 @@ const dischargeAdmission = (): void => {
     closable
     close-on-escape
     dismissable-mask
+    @show="refreshAdmissionData"
     @hide="resetDischargeAdmission"
   >
     <span class="text-[--surface-500]">Provide discharge information.</span>
@@ -50,7 +51,7 @@ const dischargeAdmission = (): void => {
     <div class="pt-2">
       <FloatLabel class="mt-6">
         <Calendar
-          v-model="dischargeDatetime"
+          v-model="admission.dischargeDatetime"
           class="w-full"
           name="dischargeDatetime"
           autofocus
@@ -63,7 +64,12 @@ const dischargeAdmission = (): void => {
 
     <template #footer>
       <Button label="Cancel" type="button" severity="secondary" @click="cancelAdmissionDischarge" />
-      <Button label="Discharge" type="submit" severity="danger" @click="dischargeAdmission" />
+      <Button
+        label="Discharge"
+        type="submit"
+        severity="danger"
+        @click="dischargeAdmission(admission)"
+      />
     </template>
   </Dialog>
 </template>

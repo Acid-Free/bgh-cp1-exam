@@ -18,3 +18,9 @@ type AdmissionFormData = {
   ward: string | null
   admissionDatetime: Date | null
 }
+
+// Admission object to be sent to backend for discharge
+type DischargeAdmissionFormData = {
+  id: number | null
+  dischargeDatetime: Date | null
+}

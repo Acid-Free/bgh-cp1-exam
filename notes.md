@@ -19,7 +19,7 @@
 - [x] Database tables
   - [x] Patient
   - [x] Admission
-- [ ] Functions
+- [x] Functions
   - [ ] _Fetch patient_
   - [x] Fetch patients
   - [x] Add patient
@@ -28,15 +28,15 @@
   - [x] Fetch admissions for the day
   - [x] Admit patient
     - [x] Select patient
-      - [ ] Ensure patient is not yet admitted
+      - [ ] _Ensure patient is not yet admitted_
     - [x] Provide admission datetime and ward
-  - [ ] Discharge admission
-    - [ ] Ensure admission is active
-    - [ ] Provide discharge datetime
-- [ ] Compliance
+  - [x] Discharge admission
+    - [x] Ensure admission is active
+    - [x] Provide discharge datetime
+- [x] Compliance
   - [x] Send GitHub link to company email
   - [x] Add sql queries for table creation
-  - [ ] Update `README.md`
+  - [ ] _Update `README.md`_
 
 ## Misc
 
