@@ -64,10 +64,23 @@ class AdmissionController extends Controller
 
     public function dischargeAdmission(Request $request): JsonResponse
     {
+
         $request->validate([
             'id' => 'required|exists:admissions,id',
-            'dischargeDatetime' => 'required|date'
+            'dischargeDatetime' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) use ($request) {
+                    $admission = Admission::findOrFail($request->id);
+                    $admissionDatetime = $admission->admission_datetime;
+
+                    if (strtotime($value) < strtotime($admissionDatetime)) {
+                        $fail('The discharge date cannot be earlier than the admission date.');
+                    }
+                },
+            ],
         ]);
+
 
         $mappedData = [
             'id' => $request->id,
