@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Services\DateService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -92,8 +93,7 @@ class PatientController extends Controller
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Patient not found'], 404);
         } catch (\Exception $e) {
-            Log::error('Error updating patient: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to update patient'], 500);
+            return response()->json(['error' => 'An unexpected error occurred'], 500);
         }
     }
 
@@ -103,15 +103,22 @@ class PatientController extends Controller
             'id' => 'required'
         ]);
 
-        $patient = Patient::find($validatedData['id']);
+        try {
+            $patient = Patient::findOrFail($validatedData['id']);
 
-        if (!$patient) {
-            return response()->json(['message' => 'Patient not found'], 404);
+            // Delete the patient
+            $patient->delete();
+
+            return response()->json(['message' => 'Patient deleted successfully'], 204);
+        } catch (QueryException $e) {
+            // Check if the exception is due to foreign key constraint violation
+            if ($e->errorInfo[1] === 1451) {
+                return response()->json(['error' => 'Cannot delete patient as they have an admission'], 422);
+            }
+
+            return response()->json(['error' => 'Database error occurred'], 422);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An unexpected error occurred'], 500);
         }
-
-        // Delete the patient
-        $patient->delete();
-
-        return response()->json(['message' => 'Patient deleted successfully'], 204);
     }
 }
