@@ -15,6 +15,7 @@ import { formatName } from '@/Helpers/names'
 import { formatDate } from '@/Helpers/time'
 import { usePatientStore } from '@/stores/patient'
 import { storeToRefs } from 'pinia'
+import DatetimeTag from '@/Components/DatetimeTag.vue'
 
 const patientStore = usePatientStore()
 const { fetchPatients, deletePatient } = patientStore
@@ -80,7 +81,7 @@ const deletePatientConfirm = (patientId: number, acceptCallback: (id: number) =>
       </Column>
       <Column field="dateOfBirth" header="Date of Birth">
         <template #body="{ data }">
-          {{ formatDate(data.birthDate) }}
+          <DatetimeTag :date="formatDate(data.birthDate)" />
         </template>
       </Column>
       <Column field="address" header="Address"></Column>

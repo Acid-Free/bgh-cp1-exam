@@ -8,12 +8,14 @@ import DataTable from 'primevue/datatable'
 import { onMounted, ref, watch } from 'vue'
 import { Ref } from 'vue'
 import { formatName } from '@/Helpers/names'
-import { formatDate, formatDatetime } from '@/Helpers/time'
+import { formatDate, formatDatetime, formatTime } from '@/Helpers/time'
 import Calendar from 'primevue/calendar'
 import AddAdmissionDialog from '@/Components/AddAdmissionDialog.vue'
 import DischargeAdmissionDialog from '@/Components/DischargeAdmissionDialog.vue'
 import { useAdmisionStore } from '@/stores/admission'
 import { storeToRefs } from 'pinia'
+import Tag from 'primevue/tag'
+import DatetimeTag from '@/Components/DatetimeTag.vue'
 
 const admissionStore = useAdmisionStore()
 const { fetchAdmissions } = admissionStore
@@ -71,15 +73,24 @@ const toggleDischargeAdmission = (admissionId?: number): void => {
       </Column>
       <Column field="ward" header="Ward"></Column>
       <Column field="admissionDatetime" header="Admission Datetime">
-        <template #body="{ data }"> {{ formatDatetime(data.admissionDatetime) }}</template>
+        <template #body="{ data }">
+          <DatetimeTag
+            :date="formatDate(data.dischargeDatetime)"
+            :time="formatTime(data.dischargeDatetime)"
+        /></template>
       </Column>
       <Column field="dischargeDatetime" header="Status">
         <template #body="{ data }">
-          {{
-            data.dischargeDatetime === null
-              ? 'Active'
-              : `Discharged on ${formatDatetime(data.dischargeDatetime)}`
-          }}
+          <template v-if="data.dischargeDatetime === null">
+            <Tag severity="success" value="Success">Active</Tag>
+          </template>
+          <div v-else class="flex gap-2">
+            <Tag severity="secondary" value="Success"> Discharged </Tag>
+            <DatetimeTag
+              :date="formatDate(data.dischargeDatetime)"
+              :time="formatTime(data.dischargeDatetime)"
+            />
+          </div>
         </template>
       </Column>
       <Column header="Action" :pt="{ headerTitle: 'text-center w-full', headerCell: 'w-1/12' }">

@@ -19,3 +19,12 @@ export const formatDatetime = (date: Date): string => {
     minute: 'numeric'
   })
 }
+
+/** Formats date in string time */
+export const formatTime = (date: Date): string => {
+  const formattedDate = new Date(date)
+  return formattedDate.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric'
+  })
+}
