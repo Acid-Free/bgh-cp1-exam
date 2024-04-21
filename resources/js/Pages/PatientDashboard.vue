@@ -17,7 +17,7 @@ import { usePatientStore } from '@/stores/patient'
 import { storeToRefs } from 'pinia'
 
 const patientStore = usePatientStore()
-const { fetchPatients } = patientStore
+const { fetchPatients, deletePatient } = patientStore
 const { patients } = storeToRefs(patientStore)
 
 onMounted(() => {
@@ -39,7 +39,10 @@ const toggleUpdatePatient = (patientInfo: Patient): void => {
 }
 
 const confirm = useConfirm()
-const deletePatientConfirm = (acceptCallback: () => void): void => {
+const deletePatientConfirm = (
+  patientId: number,
+  acceptCallback: (id: number) => Promise<void>
+): void => {
   const message = 'Are you sure you want to delete this patient?'
 
   confirm.require({
@@ -47,17 +50,14 @@ const deletePatientConfirm = (acceptCallback: () => void): void => {
     header: 'Delete Confirmation',
     icon: 'pi pi-exclamation-triangle',
     rejectClass: 'p-button-secondary p-button-outlined',
-    acceptClass: 'p-button-danger p-butotn-outlined',
+    acceptClass: 'p-button-danger p-button-outlined',
     rejectLabel: 'Cancel',
     acceptLabel: 'Save',
     accept: () => {
-      acceptCallback()
+      console.log('inside confirm:', patientId)
+      acceptCallback(patientId) // accessing id from the outer scope
     }
   })
-}
-const deletePatient = (): void => {
-  // TODO: Add delete functionality
-  console.log('Delete patient')
 }
 </script>
 
@@ -99,7 +99,11 @@ const deletePatient = (): void => {
               icon="pi pi-trash"
               severity="danger"
               text
-              @click="deletePatientConfirm(deletePatient)"
+              @click="
+                () => {
+                  deletePatientConfirm(data.id, deletePatient)
+                }
+              "
             />
           </div>
         </template>

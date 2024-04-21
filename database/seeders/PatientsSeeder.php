@@ -54,6 +54,70 @@ class PatientsSeeder extends Seeder
                     'suffix_name' => '',
                     'birth_date' => '1980-07-12',
                     'address' => '222 Cedar St, Borough'
+                ],
+                [
+                    'last_name' => 'Garcia',
+                    'first_name' => 'Sophia',
+                    'middle_name' => 'Isabel',
+                    'suffix_name' => '',
+                    'birth_date' => '1985-09-22',
+                    'address' => '789 Elm St, Villagetown'
+                ],
+                [
+                    'last_name' => 'Martinez',
+                    'first_name' => 'Daniel',
+                    'middle_name' => 'Miguel',
+                    'suffix_name' => '',
+                    'birth_date' => '1975-03-18',
+                    'address' => '1010 Pine Ln, Hamlet'
+                ],
+                [
+                    'last_name' => 'Jackson',
+                    'first_name' => 'Olivia',
+                    'middle_name' => 'Grace',
+                    'suffix_name' => '',
+                    'birth_date' => '1988-11-05',
+                    'address' => '1313 Cedar Rd, Borough'
+                ],
+                [
+                    'last_name' => 'Taylor',
+                    'first_name' => 'William',
+                    'middle_name' => 'Henry',
+                    'suffix_name' => '',
+                    'birth_date' => '1992-06-20',
+                    'address' => '1515 Oak Dr, Townsville'
+                ],
+                [
+                    'last_name' => 'Anderson',
+                    'first_name' => 'Emma',
+                    'middle_name' => 'Nicole',
+                    'suffix_name' => '',
+                    'birth_date' => '1983-01-10',
+                    'address' => '1717 Maple Ct, Cityville'
+                ],
+                [
+                    'last_name' => 'Thomas',
+                    'first_name' => 'Matthew',
+                    'middle_name' => '',
+                    'suffix_name' => '',
+                    'birth_date' => '1970-08-27',
+                    'address' => '1919 Elm Ave, Villagetown'
+                ],
+                [
+                    'last_name' => 'Hernandez',
+                    'first_name' => 'Ava',
+                    'middle_name' => 'Sofia',
+                    'suffix_name' => 'III',
+                    'birth_date' => '1982-05-14',
+                    'address' => '2121 Pine Blvd, Hamlet'
+                ],
+                [
+                    'last_name' => 'Walker',
+                    'first_name' => 'Alexander',
+                    'middle_name' => 'Joseph',
+                    'suffix_name' => '',
+                    'birth_date' => '1997-02-08',
+                    'address' => '2323 Cedar St, Borough'
                 ]
             ]
         );

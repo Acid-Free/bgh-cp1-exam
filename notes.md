@@ -6,7 +6,7 @@
 
 ## Core
 
-- [ ] Interfaces
+- [x] Interfaces
   - [x] Patient dashboard
   - [x] Admission dashboard
   - [x] Add patient
@@ -16,14 +16,15 @@
     - [ ] _From Patient page_
     - [x] From Admisson page
   - [x] Remove admission
-- [ ] Database tables
-  - [ ] Patient
-  - [ ] Admission
+- [x] Database tables
+  - [x] Patient
+  - [x] Admission
 - [ ] Functions
   - [ ] _Fetch patient_
-  - [ ] Add patient
-  - [ ] Update patient
-  - [ ] Remove patient
+  - [x] Fetch patients
+  - [x] Add patient
+  - [x] Update patient
+  - [x] Remove patient
   - [ ] Fetch admissions for the day
   - [ ] Admit patient
     - [ ] Select patient
@@ -44,6 +45,8 @@
 - [ ] Add datable sorting filters
 - [ ] Add datatable search
 - [ ] Show admissions with the following filters: active, discharged, all
+- [ ] Add register redirect from login page
+- [ ] Parse backend date when used as `Calendar` model
 
 ## Refactors
 

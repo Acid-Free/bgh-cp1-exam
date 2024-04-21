@@ -7,6 +7,10 @@ import { Ref } from 'vue'
 import { Patient } from '@/types/patient'
 import { ref } from 'vue'
 import { watch } from 'vue'
+import { usePatientStore } from '@/stores/patient'
+
+const patientStore = usePatientStore()
+const { updatePatient } = patientStore
 
 const visible = defineModel<boolean>('visible')
 const props = defineProps<{ updatePatientInfo: Patient }>()
@@ -24,11 +28,6 @@ const resetPatientInfo = (): void => {
 
 const cancelPatientUpdate = (): void => {
   visible.value = false
-}
-
-const updatePatient = (): void => {
-  // TODO: Update patient
-  console.log('Update patient')
 }
 </script>
 
@@ -76,7 +75,7 @@ const updatePatient = (): void => {
 
     <template #footer>
       <Button label="Cancel" type="button" severity="secondary" @click="cancelPatientUpdate" />
-      <Button label="Update" type="submit" severity="success" @click="updatePatient" />
+      <Button label="Update" type="submit" severity="success" @click="updatePatient(patientInfo)" />
     </template>
   </Dialog>
 </template>
