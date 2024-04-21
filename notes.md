@@ -12,9 +12,9 @@
   - [x] Add patient
   - [x] Update patient
   - [x] Remove patient
-  - [ ] Admit patient
-    - [ ] From Patient page
-    - [ ] _From Admisson page_
+  - [x] Admit patient
+    - [ ] _From Patient page_
+    - [x] From Admisson page
   - [x] Remove admission
 - [ ] Database tables
   - [ ] Patient

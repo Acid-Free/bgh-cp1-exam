@@ -12,6 +12,7 @@ import { formatName } from '@/Helpers/names'
 import { formatDate, formatDatetime } from '@/Helpers/time'
 import Calendar from 'primevue/calendar'
 import AddAdmissionDialog from '@/Components/AddAdmissionDialog.vue'
+import DischargeAdmissionDialog from '@/Components/DischargeAdmissionDialog.vue'
 
 const dashboardAdmissionDate: Ref<Date> = ref(new Date())
 const admissions: Ref<Admission[]> = ref([
@@ -42,25 +43,17 @@ const toggleAddAdmission = (): void => {
   addAdmissionToggled.value = !addAdmissionToggled.value
 }
 
-const confirm = useConfirm()
-const deleteAdmissionConfirm = (acceptCallback: () => void): void => {
-  const message = 'Are you sure you want to delete this admission?'
+// Last selected admission entry id
+const lastAdmissionId: Ref<number | null> = ref(null)
+const dischargeAdmissionToggled: Ref<boolean> = ref(false)
+const toggleDischargeAdmission = (admissionId: number): void => {
+  lastAdmissionId.value = admissionId
 
-  confirm.require({
-    message,
-    header: 'Delete Confirmation',
-    icon: 'pi pi-exclamation-triangle',
-    rejectClass: 'p-button-secondary p-button-outlined',
-    acceptClass: 'p-button-danger p-butotn-outlined',
-    rejectLabel: 'Cancel',
-    acceptLabel: 'Save',
-    accept: () => {
-      acceptCallback()
-    }
-  })
+  dischargeAdmissionToggled.value = !dischargeAdmissionToggled.value
 }
-const deleteAdmission = (): void => {
-  // TODO: Add delete functionality
+const dischargeAdmission = (): void => {
+  // TODO: Add discharge functionality
+  console.log('Discharge admission')
 }
 </script>
 
@@ -104,14 +97,16 @@ const deleteAdmission = (): void => {
         </template>
       </Column>
       <Column header="Action" :pt="{ headerTitle: 'text-center w-full', headerCell: 'w-1/12' }">
-        <template #body>
+        <template #body="{ data }">
           <div class="flex justify-center gap-8">
             <Button
-              v-tooltip.left="'Delete Patient'"
-              icon="pi pi-trash"
+              v-if="data.dischargeDatetime === null"
+              v-tooltip.left="'Discharge Admission'"
+              icon="pi pi-receipt"
               severity="danger"
               text
-              @click="deleteAdmissionConfirm(deleteAdmission)"
+              class="h-6"
+              @click="toggleDischargeAdmission(data.id)"
             />
           </div>
         </template>
@@ -121,4 +116,8 @@ const deleteAdmission = (): void => {
 
   <ConfirmDialog />
   <AddAdmissionDialog v-model:visible="addAdmissionToggled" />
+  <DischargeAdmissionDialog
+    v-model:visible="dischargeAdmissionToggled"
+    :admission-id="lastAdmissionId"
+  />
 </template>
