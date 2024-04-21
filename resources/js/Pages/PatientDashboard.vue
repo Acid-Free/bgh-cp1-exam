@@ -73,7 +73,17 @@ const deletePatientConfirm = (patientId: number, acceptCallback: (id: number) =>
 
     <Button label="Add Patient" icon="pi pi-plus" @click="toggleAddPatient" />
 
-    <DataTable :value="patients" data-key="id" :pt="{ root: 'mt-4' }">
+    <DataTable
+      :value="patients"
+      data-key="id"
+      :pt="{
+        root: 'mt-4'
+      }"
+      paginator
+      :rows="10"
+      :rows-per-page-options="[10, 50, 200, 1000]"
+      paginator-template="PageLinks RowsPerPageDropdown"
+    >
       <Column field="lastName" header="Name">
         <template #body="{ data }">
           {{ formatName(data.lastName, data.firstName, data.middleName, data.suffixName) }}

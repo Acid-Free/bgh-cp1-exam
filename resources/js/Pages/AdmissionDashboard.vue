@@ -58,7 +58,15 @@ const toggleDischargeAdmission = (admissionId?: number): void => {
       <Button label="Add Admission" icon="pi pi-plus" @click="toggleAddAdmission" />
       <Calendar v-model="dashboardAdmissionDate" />
     </div>
-    <DataTable :value="admissions" data-key="id" :pt="{ root: 'mt-4' }">
+    <DataTable
+      :value="admissions"
+      data-key="id"
+      :pt="{ root: 'mt-4' }"
+      paginator
+      :rows="10"
+      :rows-per-page-options="[10, 50, 200, 1000]"
+      paginator-template="PageLinks RowsPerPageDropdown"
+    >
       <Column field="patientLastName" header="Name">
         <template #body="{ data }">
           {{
