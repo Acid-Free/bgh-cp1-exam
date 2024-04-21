@@ -1,6 +1,7 @@
 /** Formats date in string date */
 export const formatDate = (date: Date): string => {
-  return date.toLocaleString('en-US', {
+  const formattedDate = new Date(date)
+  return formattedDate.toLocaleString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -9,7 +10,8 @@ export const formatDate = (date: Date): string => {
 
 /** Formats date in string datetime */
 export const formatDatetime = (date: Date): string => {
-  return date.toLocaleString('en-US', {
+  const formattedDate = new Date(date)
+  return formattedDate.toLocaleString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
