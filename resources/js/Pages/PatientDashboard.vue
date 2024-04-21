@@ -78,7 +78,7 @@ const deletePatientConfirm = (acceptCallback: () => void): void => {
     rejectClass: 'p-button-secondary p-button-outlined',
     acceptClass: 'p-button-danger p-butotn-outlined',
     rejectLabel: 'Cancel',
-    acceptLabel: 'Save',
+    acceptLabel: 'Delete',
     accept: () => {
       acceptCallback()
     }
