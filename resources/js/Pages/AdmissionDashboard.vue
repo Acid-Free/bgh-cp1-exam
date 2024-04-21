@@ -74,7 +74,7 @@ const dischargeAdmission = (): void => {
       </Column>
       <Column field="ward" header="Ward"></Column>
       <Column field="admissionDatetime" header="Admission Datetime">
-        <template #body="{ data }"> {{ formatDate(data.admissionDatetime) }}</template>
+        <template #body="{ data }"> {{ formatDatetime(data.admissionDatetime) }}</template>
       </Column>
       <Column field="dischargeDatetime" header="Status">
         <template #body="{ data }">
