@@ -25,11 +25,11 @@
   - [x] Add patient
   - [x] Update patient
   - [x] Remove patient
-  - [ ] Fetch admissions for the day
-  - [ ] Admit patient
-    - [ ] Select patient
+  - [x] Fetch admissions for the day
+  - [x] Admit patient
+    - [x] Select patient
       - [ ] Ensure patient is not yet admitted
-    - [ ] Provide admission datetime and ward
+    - [x] Provide admission datetime and ward
   - [ ] Discharge admission
     - [ ] Ensure admission is active
     - [ ] Provide discharge datetime

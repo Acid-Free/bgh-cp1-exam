@@ -39,4 +39,26 @@ class AdmissionController extends Controller
 
         return response()->json($formattedAdmissions);
     }
+
+    public function addAdmission(Request $request): JsonResponse
+    {
+        $request->validate([
+            'patientId' => 'required|exists:patients,id',
+            'ward' => 'required|string',
+            'admissionDatetime' => 'required|date',
+        ]);
+
+
+        $mappedData = [
+            'patient_id' => $request->patientId,
+            'ward' => $request->ward,
+            'admission_datetime' => $this->dateService->parseISO8601MysqlDatetime(
+                $request->admissionDatetime
+            )
+        ];
+
+        $admission = Admission::create($mappedData);
+
+        return response()->json(['message' => 'Admission created successfully', 'data' => $admission], 201);
+    }
 }

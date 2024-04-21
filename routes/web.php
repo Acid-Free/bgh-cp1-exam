@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     // Admissions
     Route::get('/admissions', [AdmissionController::class, 'getAdmissionsPerDay'])->name('admission.all.day');
+    Route::post('/add_admission', [AdmissionController::class, 'addAdmission'])->name('admission.add');
 });
 
 require __DIR__ . '/auth.php';

@@ -16,6 +16,8 @@ import { storeToRefs } from 'pinia'
 import { FilterMatchMode } from 'primevue/api'
 import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
+import { useAdmisionStore } from '@/stores/admission'
+import { DataTableRowClickEvent } from 'primevue/datatable'
 
 const patientStore = usePatientStore()
 const { fetchPatients } = patientStore
@@ -23,6 +25,9 @@ const { patients } = storeToRefs(patientStore)
 const patientFilters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 })
+
+const admissionStore = useAdmisionStore()
+const { addAdmission } = admissionStore
 
 const visible = defineModel<boolean>('visible')
 
@@ -37,6 +42,17 @@ const refreshAdmissionData = (): void => {
   admission.value.admissionDatetime = new Date()
 
   fetchPatients()
+}
+
+const selectPatientProceed = (
+  event: DataTableRowClickEvent,
+  nextCallback: (event: Event) => void
+): void => {
+  // Assign selected patient for admission
+  admission.value.patientId = event.data.id
+
+  // Proceed to next page
+  nextCallback(event.originalEvent)
 }
 
 const resetAdmission = (): void => {
@@ -79,12 +95,7 @@ const saveAdmission = (): void => {
               bodyRow: 'cursor-pointer hover:bg-blue-600/[.05]',
               header: 'p-0 pb-2 flex justify-end'
             }"
-            @row-click="
-              (event) => {
-                console.log(event.data)
-                nextCallback(event.originalEvent)
-              }
-            "
+            @row-click="(event) => selectPatientProceed(event, nextCallback)"
           >
             <template #header>
               <div class="justify-content-end flex">
@@ -147,7 +158,7 @@ const saveAdmission = (): void => {
 
     <template #footer>
       <Button label="Cancel" type="button" severity="secondary" @click="cancelAdmissionCreation" />
-      <Button label="Save" type="submit" severity="success" @click="saveAdmission" />
+      <Button label="Save" type="submit" severity="success" @click="addAdmission(admission)" />
     </template>
   </Dialog>
 </template>

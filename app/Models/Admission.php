@@ -23,6 +23,10 @@ class Admission extends Model
      */
     public static function admissionsForDay(string $day): Collection
     {
-        return self::with('patient')->whereDate('admission_datetime', $day)->get();
+        return self::with('patient')
+            ->whereDate('admission_datetime', $day)
+            ->orderByDesc('admission_datetime')
+            ->orderByDesc('id')
+            ->get();
     }
 }
