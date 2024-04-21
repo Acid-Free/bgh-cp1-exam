@@ -5,27 +5,42 @@ import FloatLabel from 'primevue/floatlabel'
 import Calendar from 'primevue/calendar'
 import Stepper from 'primevue/stepper'
 import StepperPanel from 'primevue/stepperpanel'
-import { Ref, reactive } from 'vue'
+import { Ref, onMounted, reactive } from 'vue'
 import { ref } from 'vue'
-import { Admission } from '@/types/admission'
+import { Admission, AdmissionFormData } from '@/types/admission'
 import { Patient } from '@/types/patient'
 import { formatName } from '@/Helpers/names'
 import { formatDate } from '@/Helpers/time'
 import Column from 'primevue/column'
+import { usePatientStore } from '@/stores/patient'
+import { storeToRefs } from 'pinia'
+import { FilterMatchMode } from 'primevue/api'
+import IconField from 'primevue/iconfield'
+import InputIcon from 'primevue/inputicon'
+
+const patientStore = usePatientStore()
+const { fetchPatients } = patientStore
+const { patients } = storeToRefs(patientStore)
+const patientFilters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+})
+
+onMounted(() => {
+  fetchPatients()
+})
 
 const visible = defineModel<boolean>('visible')
 
 const emptyAdmission = {
-  patientLastName: null,
-  patientFirstName: null,
-  patientMiddleName: null,
-  patientSuffixName: null,
-
+  patientId: null,
   ward: null,
-  admissionDatetime: null,
-  dischargeDatetime: null
+  admissionDatetime: null
 }
-const admission: Ref<Admission> = ref({ ...emptyAdmission })
+const admission: Ref<AdmissionFormData> = ref(emptyAdmission)
+
+const refreshAdmissionDatetimeAutofill = (): void => {
+  admission.value.admissionDatetime = new Date()
+}
 
 const resetAdmission = (): void => {
   admission.value = { ...emptyAdmission }
@@ -35,60 +50,10 @@ const cancelAdmissionCreation = (): void => {
   visible.value = false
 }
 
-type AdmissionFormData = {
-  patientId: number | null
-  ward: string | null
-  admissionDatetime: Date | null
-}
-const admissionFormData: AdmissionFormData = reactive({
-  patientId: null,
-  ward: null,
-  admissionDatetime: new Date()
-})
-
 const saveAdmission = (): void => {
   // TODO: Save admission
   console.log('Save admission')
 }
-
-const patients: Ref<Patient[]> = ref([
-  {
-    id: 1,
-    lastName: 'Patient 1',
-    firstName: 'Bob',
-    middleName: null,
-    suffixName: null,
-    birthDate: new Date(),
-    address: 'Address here 1'
-  },
-  {
-    id: 2,
-    lastName: 'Patient 2',
-    firstName: 'Bob',
-    middleName: 'Yo',
-    suffixName: 'sr',
-    birthDate: new Date(),
-    address: 'Address here 2'
-  },
-  {
-    id: 5,
-    lastName: 'Patient 3',
-    firstName: 'Bob',
-    middleName: 'Yo',
-    suffixName: 'jr',
-    birthDate: new Date(),
-    address: 'Address here 3'
-  },
-  {
-    id: 6,
-    lastName: 'Patient 4',
-    firstName: 'Bob',
-    middleName: 'Yo',
-    suffixName: 'jr',
-    birthDate: new Date(),
-    address: 'Address here 4'
-  }
-])
 </script>
 
 <template>
@@ -99,15 +64,24 @@ const patients: Ref<Patient[]> = ref([
     closable
     close-on-escape
     dismissable-mask
+    @show="refreshAdmissionDatetimeAutofill"
     @hide="resetAdmission"
   >
     <Stepper orientatsion="vertical" linear>
       <StepperPanel header="Select Patient">
         <template #content="{ nextCallback }">
           <DataTable
+            v-model:filters="patientFilters"
             :value="patients"
+            :globalFilterFields="['lastName', 'firstName', 'middleName', 'suffixName', 'address']"
             data-key="id"
-            :pt="{ root: 'mt-4', bodyRow: 'cursor-pointer hover:bg-blue-600/[.05]' }"
+            scrollable
+            scrollHeight="400px"
+            :pt="{
+              root: 'mt-4',
+              bodyRow: 'cursor-pointer hover:bg-blue-600/[.05]',
+              header: 'p-0 pb-2 flex justify-end'
+            }"
             @row-click="
               (event) => {
                 console.log(event.data)
@@ -115,6 +89,19 @@ const patients: Ref<Patient[]> = ref([
               }
             "
           >
+            <template #header>
+              <div class="justify-content-end flex">
+                <IconField iconPosition="left">
+                  <InputIcon>
+                    <i class="pi pi-search" />
+                  </InputIcon>
+                  <InputText
+                    v-model="patientFilters['global'].value"
+                    placeholder="Keyword Search"
+                  />
+                </IconField>
+              </div>
+            </template>
             <Column field="lastName" header="Name">
               <template #body="{ data }">
                 {{ formatName(data.lastName, data.firstName, data.middleName, data.suffixName) }}
@@ -138,6 +125,8 @@ const patients: Ref<Patient[]> = ref([
                 class="w-full"
                 name="admissionDatetime"
                 autofocus
+                show-time
+                hour-format="12"
               />
               <label for="admissionDatetime">Admission Datetime</label>
             </FloatLabel>

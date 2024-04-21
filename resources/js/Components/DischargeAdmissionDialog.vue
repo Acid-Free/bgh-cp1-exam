@@ -49,7 +49,14 @@ const dischargeAdmission = (): void => {
 
     <div class="pt-2">
       <FloatLabel class="mt-6">
-        <Calendar v-model="dischargeDatetime" class="w-full" name="dischargeDatetime" autofocus />
+        <Calendar
+          v-model="dischargeDatetime"
+          class="w-full"
+          name="dischargeDatetime"
+          autofocus
+          show-time
+          hour-format="12"
+        />
         <label for="dischargeDatetime">Discharge Datetime</label>
       </FloatLabel>
     </div>

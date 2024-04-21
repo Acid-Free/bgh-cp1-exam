@@ -1,3 +1,4 @@
+// Client admission type
 export type Admission = {
   id?: number
 
@@ -9,4 +10,11 @@ export type Admission = {
   ward: string | null
   admissionDatetime: Date | null
   dischargeDatetime: Date | null
+}
+
+// Admission object to be sent to backend for entry insertion
+type AdmissionFormData = {
+  patientId: number | null
+  ward: string | null
+  admissionDatetime: Date | null
 }

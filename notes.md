@@ -47,6 +47,7 @@
 - [ ] Show admissions with the following filters: active, discharged, all
 - [ ] Add register redirect from login page
 - [ ] Parse backend date when used as `Calendar` model
+- [ ] Prevent already-admitted patients from being admitted again
 
 ## Refactors
 
