@@ -11,7 +11,7 @@ class Admission extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['patient_id', 'ward', 'admission_datetime'];
+    protected $fillable = ['patient_id', 'ward', 'admission_datetime', 'discharge_datetime'];
 
     public function patient(): HasOne
     {

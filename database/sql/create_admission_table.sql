@@ -5,6 +5,7 @@ CREATE TABLE admissions (
     patient_id bigint NOT NULL,
     ward varchar(100) NOT NULL,
     admission_datetime datetime NOT NULL,
+    discharge_datetime datetime,
     PRIMARY KEY (id),
     FOREIGN KEY (patient_id) REFERENCES patients(id)
 );
