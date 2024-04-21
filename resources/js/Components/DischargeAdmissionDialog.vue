@@ -97,7 +97,7 @@ const attemptDischargeAdmission = async (): Promise<void> => {
       <Button
         label="Discharge"
         type="submit"
-        severity="danger"
+        severity="warning"
         @click="attemptDischargeAdmission"
       />
     </template>

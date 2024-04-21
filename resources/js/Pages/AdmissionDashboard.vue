@@ -8,7 +8,7 @@ import DataTable from 'primevue/datatable'
 import { onMounted, ref, watch } from 'vue'
 import { Ref } from 'vue'
 import { formatName } from '@/Helpers/names'
-import { formatDate, formatDatetime, formatTime } from '@/Helpers/time'
+import { formatDate, formatTime, formatDatetime } from '@/Helpers/time'
 import Calendar from 'primevue/calendar'
 import AddAdmissionDialog from '@/Components/AddAdmissionDialog.vue'
 import DischargeAdmissionDialog from '@/Components/DischargeAdmissionDialog.vue'
@@ -83,9 +83,10 @@ const toggleDischargeAdmission = (admissionId?: number): void => {
       <Column field="admissionDatetime" header="Admission Datetime">
         <template #body="{ data }">
           <DatetimeTag
-            :date="formatDate(data.dischargeDatetime)"
-            :time="formatTime(data.dischargeDatetime)"
-        /></template>
+            :date="formatDate(data.admissionDatetime)"
+            :time="formatTime(data.admissionDatetime)"
+          />
+        </template>
       </Column>
       <Column field="dischargeDatetime" header="Status">
         <template #body="{ data }">
@@ -108,7 +109,7 @@ const toggleDischargeAdmission = (admissionId?: number): void => {
               v-if="data.dischargeDatetime === null"
               v-tooltip.left="'Discharge Admission'"
               icon="pi pi-receipt"
-              severity="danger"
+              severity="warning"
               text
               class="h-6"
               @click="toggleDischargeAdmission(data.id)"
