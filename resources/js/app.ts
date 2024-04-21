@@ -16,8 +16,11 @@ import DataTable from 'primevue/datatable'
 import Button from 'primevue/button'
 import Tooltip from 'primevue/tooltip'
 import Dialog from 'primevue/dialog'
+import { createPinia } from 'pinia'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
+
+const pinia = createPinia()
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
@@ -30,6 +33,7 @@ createInertiaApp({
     createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(ZiggyVue)
+      .use(pinia)
       .use(PrimeVue)
       .use(ToastService)
       .use(ConfirmationService)
