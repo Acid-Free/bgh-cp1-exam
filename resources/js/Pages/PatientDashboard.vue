@@ -6,52 +6,23 @@ import { useConfirm } from 'primevue/useconfirm'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
 import DataTable from 'primevue/datatable'
-import { Ref } from 'vue'
+import { Ref, onMounted } from 'vue'
 import { ref } from 'vue'
 import ConfirmDialog from 'primevue/confirmdialog'
 import UpdatePatientDialog from '@/Components/UpdatePatientDialog.vue'
 import { Patient } from '@/types/patient'
 import { formatName } from '@/Helpers/names'
 import { formatDate } from '@/Helpers/time'
+import { usePatientStore } from '@/stores/patient'
+import { storeToRefs } from 'pinia'
 
-const patients: Ref<Patient[]> = ref([
-  {
-    id: 1,
-    lastName: 'Patient 1',
-    firstName: 'Bob',
-    middleName: null,
-    suffixName: null,
-    birthDate: new Date(),
-    address: 'Address here 1'
-  },
-  {
-    id: 2,
-    lastName: 'Patient 2',
-    firstName: 'Bob',
-    middleName: 'Yo',
-    suffixName: 'sr',
-    birthDate: new Date(),
-    address: 'Address here 2'
-  },
-  {
-    id: 5,
-    lastName: 'Patient 3',
-    firstName: 'Bob',
-    middleName: 'Yo',
-    suffixName: 'jr',
-    birthDate: new Date(),
-    address: 'Address here 3'
-  },
-  {
-    id: 6,
-    lastName: 'Patient 4',
-    firstName: 'Bob',
-    middleName: 'Yo',
-    suffixName: 'jr',
-    birthDate: new Date(),
-    address: 'Address here 4'
-  }
-])
+const patientStore = usePatientStore()
+const { fetchPatients } = patientStore
+const { patients } = storeToRefs(patientStore)
+
+onMounted(() => {
+  fetchPatients()
+})
 
 const addPatientToggled: Ref<boolean> = ref(false)
 const toggleAddPatient = (): void => {
@@ -78,7 +49,7 @@ const deletePatientConfirm = (acceptCallback: () => void): void => {
     rejectClass: 'p-button-secondary p-button-outlined',
     acceptClass: 'p-button-danger p-butotn-outlined',
     rejectLabel: 'Cancel',
-    acceptLabel: 'Delete',
+    acceptLabel: 'Save',
     accept: () => {
       acceptCallback()
     }
