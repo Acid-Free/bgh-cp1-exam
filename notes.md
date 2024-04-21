@@ -36,14 +36,14 @@
 - [x] Compliance
   - [x] Send GitHub link to company email
   - [x] Add sql queries for table creation
-  - [ ] _Update `README.md`_
+  - [x] _Update `README.md`_
 
 ## Misc
 
 - [ ] Show age instead of date of birth in patient dashboard
 - [ ] Instead of just fetching patient data from dashboard when updating, fetch the latest patient info from backend
 - [ ] Add datable sorting filters
-- [ ] Add datatable search
+- [x] Add datatable search
 - [ ] Show admissions with the following filters: active, discharged, all
 - [ ] Add register redirect from login page
 - [ ] Parse backend date when used as `Calendar` model
@@ -51,11 +51,11 @@
 
 ## Refactors
 
-- [ ] Move patient list to store
+- [x] Move patient list to store
   - [ ] _Use patient id as prop instead of last patient info to update patient dialog_
 - [ ] Add and update patient content is the same, reuse as component
 - [ ] Move common logic and fields to \[inline\] composables
-- [ ] Separate patient and admission mutation logic from markup
+- [x] Separate patient and admission mutation logic from markup
 - [ ] Move `confirm delete patient` prompt to separate file (e.g. composable)
 - [ ] Create `errorMessage` composable
 
