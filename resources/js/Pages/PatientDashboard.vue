@@ -16,6 +16,11 @@ import { formatDate } from '@/Helpers/time'
 import { usePatientStore } from '@/stores/patient'
 import { storeToRefs } from 'pinia'
 import DatetimeTag from '@/Components/DatetimeTag.vue'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
+import { AxiosError } from 'axios'
+
+const toast = useToast()
 
 const patientStore = usePatientStore()
 const { fetchPatients, deletePatient } = patientStore
@@ -52,15 +57,27 @@ const deletePatientConfirm = (patientId: number, acceptCallback: (id: number) =>
     acceptClass: 'p-button-danger p-button-outlined',
     rejectLabel: 'Cancel',
     acceptLabel: 'Delete',
-    accept: () => {
-      acceptCallback(patientId)
-      fetchPatients()
+    accept: async () => {
+      try {
+        await acceptCallback(patientId)
+        fetchPatients()
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          toast.add({
+            severity: 'error',
+            summary: 'Patient Deletion Error',
+            detail: error?.response?.data.error,
+            life: 5000
+          })
+        }
+      }
     }
   })
 }
 </script>
 
 <template>
+  <Toast />
   <Head title="Patient Dashboard" />
 
   <AuthenticatedLayout>

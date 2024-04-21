@@ -60,3 +60,6 @@
 - [ ] Create `errorMessage` composable
 
 ## Issues
+
+- Couldn't export vue app instance defined in `app.ts`. Normally this is instantiated in the outermost block. However, with inertia, it is location inside a function block.
+- Couldn't use exported app instance to create a custom toast service. This means I have to redefine the service to every component that needs it manually. Moreover, it is not possible to call this service from files that aren't `.vue`
