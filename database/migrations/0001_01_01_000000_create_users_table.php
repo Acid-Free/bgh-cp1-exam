@@ -1,5 +1,6 @@
 <?php
 
+use Database\Seeders\UserSeeder;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,6 +21,9 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        $seeder = new UserSeeder();
+        $seeder->run();
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

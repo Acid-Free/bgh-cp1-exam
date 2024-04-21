@@ -35,7 +35,7 @@
     - [ ] Provide discharge datetime
 - [ ] Compliance
   - [x] Send GitHub link to company email
-  - [ ] Add sql queries for table creation to root file
+  - [x] Add sql queries for table creation
   - [ ] Update `README.md`
 
 ## Misc
