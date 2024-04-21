@@ -8,12 +8,21 @@ import { Patient } from '@/types/patient'
 import { ref } from 'vue'
 import { watch } from 'vue'
 import { usePatientStore } from '@/stores/patient'
+import { AxiosError } from 'axios'
+import Message from 'primevue/message'
 
 const patientStore = usePatientStore()
 const { updatePatient } = patientStore
 
+// Loading flag for form process
+const formProcessing = ref(false)
+
+// Used by Message component for showing errors
+const errorMessages = ref([])
+
 const visible = defineModel<boolean>('visible')
 const props = defineProps<{ updatePatientInfo: Patient }>()
+const emits = defineEmits(['updated'])
 
 const patientInfo: Ref<Patient> = ref({ ...props.updatePatientInfo })
 
@@ -23,11 +32,30 @@ watch(
 )
 
 const resetPatientInfo = (): void => {
+  errorMessages.value = []
   patientInfo.value = { ...props.updatePatientInfo }
 }
 
 const cancelPatientUpdate = (): void => {
   visible.value = false
+}
+
+const attemptUpdatePatient = async (): Promise<void> => {
+  try {
+    errorMessages.value = []
+    formProcessing.value = true
+
+    await updatePatient(patientInfo.value)
+
+    emits('updated')
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      console.log('wut')
+      errorMessages.value = error?.response?.data.errors ?? [error?.response?.data.error]
+    }
+  } finally {
+    formProcessing.value = false
+  }
 }
 </script>
 
@@ -73,9 +101,13 @@ const cancelPatientUpdate = (): void => {
       </FloatLabel>
     </div>
 
+    <Message v-for="(message, index) of errorMessages" :key="index" severity="error">
+      {{ message }}
+    </Message>
+
     <template #footer>
       <Button label="Cancel" type="button" severity="secondary" @click="cancelPatientUpdate" />
-      <Button label="Update" type="submit" severity="success" @click="updatePatient(patientInfo)" />
+      <Button label="Update" type="submit" severity="success" @click="attemptUpdatePatient" />
     </template>
   </Dialog>
 </template>

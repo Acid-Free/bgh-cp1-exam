@@ -35,14 +35,11 @@ const toggleAddAdmission = (): void => {
 // Last selected admission entry id
 const lastAdmissionId: Ref<number | null> = ref(null)
 const dischargeAdmissionToggled: Ref<boolean> = ref(false)
-const toggleDischargeAdmission = (admissionId: number): void => {
-  lastAdmissionId.value = admissionId
+// Only needs admissionId argument when toggling on
+const toggleDischargeAdmission = (admissionId?: number): void => {
+  if (admissionId) lastAdmissionId.value = admissionId
 
   dischargeAdmissionToggled.value = !dischargeAdmissionToggled.value
-}
-const dischargeAdmission = (): void => {
-  // TODO: Add discharge functionality
-  console.log('Discharge admission')
 }
 </script>
 
@@ -104,9 +101,23 @@ const dischargeAdmission = (): void => {
   </AuthenticatedLayout>
 
   <ConfirmDialog />
-  <AddAdmissionDialog v-model:visible="addAdmissionToggled" />
+  <AddAdmissionDialog
+    v-model:visible="addAdmissionToggled"
+    @admission-added="
+      () => {
+        fetchAdmissions(dashboardAdmissionDate)
+        toggleAddAdmission()
+      }
+    "
+  />
   <DischargeAdmissionDialog
     v-model:visible="dischargeAdmissionToggled"
     :admission-id="lastAdmissionId"
+    @admission-discharged="
+      () => {
+        fetchAdmissions(dashboardAdmissionDate)
+        toggleDischargeAdmission()
+      }
+    "
   />
 </template>

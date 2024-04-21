@@ -57,5 +57,6 @@
 - [ ] Move common logic and fields to \[inline\] composables
 - [ ] Separate patient and admission mutation logic from markup
 - [ ] Move `confirm delete patient` prompt to separate file (e.g. composable)
+- [ ] Create `errorMessage` composable
 
 ## Issues

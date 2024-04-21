@@ -1,5 +1,5 @@
 import { Patient } from '@/types/patient'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { defineStore } from 'pinia'
 import { Ref, ref } from 'vue'
 
@@ -13,22 +13,16 @@ export const usePatientStore = defineStore('patient', () => {
     patients.value = response.data
   }
 
-  const addPatient = async (patientData: Patient): Promise<void> => {
-    const response = await axios.post(route('patient.add'), patientData)
-
-    console.log(response)
+  const addPatient = async (patientData: Patient): Promise<AxiosResponse> => {
+    return await axios.post(route('patient.add'), patientData)
   }
 
-  const updatePatient = async (patientData: Patient): Promise<void> => {
-    const response = await axios.patch(route('patient.update'), patientData)
-
-    console.log(response)
+  const updatePatient = async (patientData: Patient): Promise<AxiosResponse> => {
+    return await axios.patch(route('patient.update'), patientData)
   }
 
-  const deletePatient = async (patientId: number): Promise<void> => {
-    const response = await axios.delete(route('patient.delete'), { data: { id: patientId } })
-
-    console.log(response)
+  const deletePatient = async (patientId: number): Promise<AxiosResponse> => {
+    return await axios.delete(route('patient.delete'), { data: { id: patientId } })
   }
 
   return { patients, fetchPatients, addPatient, updatePatient, deletePatient }

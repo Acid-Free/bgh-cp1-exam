@@ -32,17 +32,15 @@ const toggleAddPatient = (): void => {
 // patient info of last selected row for update in dashboard
 const lastUpdatePatientInfo: Ref<Patient | {}> = ref({})
 const updatePatientToggled: Ref<boolean> = ref(false)
-const toggleUpdatePatient = (patientInfo: Patient): void => {
-  lastUpdatePatientInfo.value = patientInfo
+// Only needs patientInfo argument if toggling on
+const toggleUpdatePatient = (patientInfo?: Patient): void => {
+  if (patientInfo) lastUpdatePatientInfo.value = patientInfo
 
   updatePatientToggled.value = !updatePatientToggled.value
 }
 
 const confirm = useConfirm()
-const deletePatientConfirm = (
-  patientId: number,
-  acceptCallback: (id: number) => Promise<void>
-): void => {
+const deletePatientConfirm = (patientId: number, acceptCallback: (id: number) => any): void => {
   const message = 'Are you sure you want to delete this patient?'
 
   confirm.require({
@@ -52,10 +50,11 @@ const deletePatientConfirm = (
     rejectClass: 'p-button-secondary p-button-outlined',
     acceptClass: 'p-button-danger p-button-outlined',
     rejectLabel: 'Cancel',
-    acceptLabel: 'Save',
+    acceptLabel: 'Delete',
     accept: () => {
       console.log('inside confirm:', patientId)
-      acceptCallback(patientId) // accessing id from the outer scope
+      acceptCallback(patientId)
+      fetchPatients()
     }
   })
 }
@@ -114,9 +113,23 @@ const deletePatientConfirm = (
   </AuthenticatedLayout>
 
   <ConfirmDialog />
-  <AddPatientDialog v-model:visible="addPatientToggled" />
+  <AddPatientDialog
+    v-model:visible="addPatientToggled"
+    @added="
+      () => {
+        fetchPatients()
+        toggleAddPatient()
+      }
+    "
+  />
   <UpdatePatientDialog
     v-model:visible="updatePatientToggled"
     :update-patient-info="lastUpdatePatientInfo as Patient"
+    @updated="
+      () => {
+        fetchPatients()
+        toggleUpdatePatient()
+      }
+    "
   />
 </template>

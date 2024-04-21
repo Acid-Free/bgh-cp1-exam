@@ -18,6 +18,8 @@ import IconField from 'primevue/iconfield'
 import InputIcon from 'primevue/inputicon'
 import { useAdmisionStore } from '@/stores/admission'
 import { DataTableRowClickEvent } from 'primevue/datatable'
+import { AxiosError } from 'axios'
+import Message from 'primevue/message'
 
 const patientStore = usePatientStore()
 const { fetchPatients } = patientStore
@@ -29,7 +31,14 @@ const patientFilters = ref({
 const admissionStore = useAdmisionStore()
 const { addAdmission } = admissionStore
 
+// Loading flag for form process
+const formProcessing = ref(false)
+
+// Used by Message component for showing errors
+const errorMessages = ref([])
+
 const visible = defineModel<boolean>('visible')
+const emits = defineEmits(['admission-added'])
 
 const emptyAdmission = {
   patientId: null,
@@ -56,6 +65,7 @@ const selectPatientProceed = (
 }
 
 const resetAdmission = (): void => {
+  errorMessages.value = []
   admission.value = { ...emptyAdmission }
 }
 
@@ -63,9 +73,21 @@ const cancelAdmissionCreation = (): void => {
   visible.value = false
 }
 
-const saveAdmission = (): void => {
-  // TODO: Save admission
-  console.log('Save admission')
+const attemptAddAdmission = async (): Promise<void> => {
+  try {
+    errorMessages.value = []
+    formProcessing.value = true
+
+    await addAdmission(admission.value)
+
+    emits('admission-added')
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      errorMessages.value = error?.response?.data.errors ?? [error?.response?.data.error]
+    }
+  } finally {
+    formProcessing.value = false
+  }
 }
 </script>
 
@@ -156,9 +178,13 @@ const saveAdmission = (): void => {
       </StepperPanel>
     </Stepper>
 
+    <Message v-for="(message, index) of errorMessages" :key="index" severity="error">
+      {{ message }}
+    </Message>
+
     <template #footer>
       <Button label="Cancel" type="button" severity="secondary" @click="cancelAdmissionCreation" />
-      <Button label="Save" type="submit" severity="success" @click="addAdmission(admission)" />
+      <Button label="Save" type="submit" severity="success" @click="attemptAddAdmission" />
     </template>
   </Dialog>
 </template>
