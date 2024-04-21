@@ -92,6 +92,7 @@ const deletePatientConfirm = (
               v-tooltip.left="'Update Patient'"
               icon="pi pi-pen-to-square"
               text
+              class="h-6"
               @click="toggleUpdatePatient(data)"
             />
             <Button
@@ -99,6 +100,7 @@ const deletePatientConfirm = (
               icon="pi pi-trash"
               severity="danger"
               text
+              class="h-6"
               @click="
                 () => {
                   deletePatientConfirm(data.id, deletePatient)
