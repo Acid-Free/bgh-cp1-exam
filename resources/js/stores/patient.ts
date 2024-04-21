@@ -11,8 +11,6 @@ export const usePatientStore = defineStore('patient', () => {
     const response = await axios.get(route('patient.all'))
 
     patients.value = response.data
-
-    console.log(response)
   }
 
   const addPatient = async (patientData: Patient): Promise<void> => {

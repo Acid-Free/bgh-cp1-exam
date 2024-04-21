@@ -5,10 +5,9 @@ import FloatLabel from 'primevue/floatlabel'
 import Calendar from 'primevue/calendar'
 import Stepper from 'primevue/stepper'
 import StepperPanel from 'primevue/stepperpanel'
-import { Ref, onMounted, reactive } from 'vue'
+import { Ref } from 'vue'
 import { ref } from 'vue'
-import { Admission, AdmissionFormData } from '@/types/admission'
-import { Patient } from '@/types/patient'
+import { AdmissionFormData } from '@/types/admission'
 import { formatName } from '@/Helpers/names'
 import { formatDate } from '@/Helpers/time'
 import Column from 'primevue/column'
@@ -25,10 +24,6 @@ const patientFilters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 })
 
-onMounted(() => {
-  fetchPatients()
-})
-
 const visible = defineModel<boolean>('visible')
 
 const emptyAdmission = {
@@ -38,8 +33,10 @@ const emptyAdmission = {
 }
 const admission: Ref<AdmissionFormData> = ref(emptyAdmission)
 
-const refreshAdmissionDatetimeAutofill = (): void => {
+const refreshAdmissionData = (): void => {
   admission.value.admissionDatetime = new Date()
+
+  fetchPatients()
 }
 
 const resetAdmission = (): void => {
@@ -64,7 +61,7 @@ const saveAdmission = (): void => {
     closable
     close-on-escape
     dismissable-mask
-    @show="refreshAdmissionDatetimeAutofill"
+    @show="refreshAdmissionData"
     @hide="resetAdmission"
   >
     <Stepper orientatsion="vertical" linear>

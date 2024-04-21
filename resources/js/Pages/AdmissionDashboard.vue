@@ -5,38 +5,27 @@ import { Head } from '@inertiajs/vue3'
 import Column from 'primevue/column'
 import ConfirmDialog from 'primevue/confirmdialog'
 import DataTable from 'primevue/datatable'
-import { useConfirm } from 'primevue/useconfirm'
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { Ref } from 'vue'
 import { formatName } from '@/Helpers/names'
 import { formatDate, formatDatetime } from '@/Helpers/time'
 import Calendar from 'primevue/calendar'
 import AddAdmissionDialog from '@/Components/AddAdmissionDialog.vue'
 import DischargeAdmissionDialog from '@/Components/DischargeAdmissionDialog.vue'
+import { useAdmisionStore } from '@/stores/admission'
+import { storeToRefs } from 'pinia'
 
+const admissionStore = useAdmisionStore()
+const { fetchAdmissions } = admissionStore
+const { admissions } = storeToRefs(admissionStore)
 const dashboardAdmissionDate: Ref<Date> = ref(new Date())
-const admissions: Ref<Admission[]> = ref([
-  {
-    id: 3,
-    patientLastName: 'Patient 2',
-    patientFirstName: 'Bob',
-    patientMiddleName: 'Test',
-    patientSuffixName: 'III',
-    ward: 'Random Ward Name',
-    admissionDatetime: new Date(),
-    dischargeDatetime: null
-  },
-  {
-    id: 4,
-    patientLastName: 'Patient 21',
-    patientFirstName: 'Bob',
-    patientMiddleName: 'Test',
-    patientSuffixName: 'IV',
-    ward: 'Random Ward Name',
-    admissionDatetime: new Date(),
-    dischargeDatetime: new Date()
-  }
-])
+onMounted(() => {
+  fetchAdmissions(dashboardAdmissionDate.value)
+})
+
+watch(dashboardAdmissionDate, () => {
+  fetchAdmissions(dashboardAdmissionDate.value)
+})
 
 const addAdmissionToggled: Ref<boolean> = ref(false)
 const toggleAddAdmission = (): void => {

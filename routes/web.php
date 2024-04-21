@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -33,6 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/add_patient', [PatientController::class, 'add'])->name('patient.add');
     Route::patch('/update_patient', [PatientController::class, 'update'])->name('patient.update');
     Route::delete('/delete_patient', [PatientController::class, 'delete'])->name('patient.delete');
+
+    // Admissions
+    Route::get('/admissions', [AdmissionController::class, 'getAdmissionsPerDay'])->name('admission.all.day');
 });
 
 require __DIR__ . '/auth.php';
